@@ -127,6 +127,7 @@ function App() {
       <header className="App-header">
         <div className="logo-container">
           {/* <img src={logo} className="App-logo" alt="logo" /> */}
+
           <h1 className="text-logo">Intern.gg</h1>
         </div>
         <div className="content-container">
