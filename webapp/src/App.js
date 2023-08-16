@@ -22,10 +22,13 @@ function App() {
     setGeneratedTweet(null);
 
     axios
-      .post(`${API_URL}/generate-banger`, {
-        originalText: tweetIdea,
-        contentType: contentType,
-      })
+      .post(
+        `https://bags-generate-4f2976c7246c.herokuapp.com/generate-banger`,
+        {
+          originalText: tweetIdea,
+          contentType: contentType,
+        }
+      )
       .then((response) => {
         if (response.status !== 200) {
           throw new Error(`Request failed with status code ${response.status}`);
@@ -43,6 +46,8 @@ function App() {
         setIsLoading(false);
       });
   };
+
+  console.log(generatedTweet);
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
@@ -155,18 +160,22 @@ function App() {
               <>
                 <p
                   style={{
-                    color: generatedTweet.startsWith("Error")
-                      ? "darkred"
-                      : "inherit",
+                    color:
+                      typeof generatedTweet == String &&
+                      generatedTweet.startsWith("Error")
+                        ? "darkred"
+                        : "inherit",
                   }}
                 >
-                  {generatedTweet}
+                  {typeof generatedTweet !== String
+                    ? generatedTweet.bangerTweet
+                    : generatedTweet}
                 </p>
-                {!generatedTweet.startsWith("Error") && (
+                {"bangerTweet" in generatedTweet && (
                   <a
                     className="tweet-button"
                     href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
-                      generatedTweet
+                      generatedTweet.bangerTweet
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
