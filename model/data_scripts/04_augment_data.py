@@ -1,7 +1,9 @@
 import os
 import csv
 import json
-import openai
+from openai import OpenAI
+
+client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 from dotenv import load_dotenv
 from tqdm import tqdm
 
@@ -9,7 +11,6 @@ from tqdm import tqdm
 load_dotenv()
 
 # Remember to put in your OpenAI API key
-openai.api_key = os.environ.get("OPENAI_API_KEY")
 
 def get_boring_versions(tweet):
     """Function that uses OpenAI's GPT-3 to generate boring versions of a given tweet."""
@@ -17,25 +18,24 @@ def get_boring_versions(tweet):
     banger_opposites_prompts = ["Write an original tweet loosely related to the topic of the following tweet",
                                 "Write a boring tweet related to the topic of the following tweet",
                                 "Write a short tweet related to the topic of the following tweet"]
-    
+
     try:
         for opposite_prompt in banger_opposites_prompts:
             # Make a call to the OpenAI API
-            response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
-                messages=[
-                    {"role": "system", "content": "You are a helpful assistant in charge of writing new tweets. " \
-                                                  "You only reply through tweets."},
-                    {"role": "user", "content": f"{opposite_prompt}: '{tweet}'"}
-                ])
-            
+            response = client.chat.completions.create(model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant in charge of writing new tweets. " \
+                                              "You only reply through tweets."},
+                {"role": "user", "content": f"{opposite_prompt}: '{tweet}'"}
+            ])
+
             # Get the boring version from the response
             boring_versions.append(response.choices[0].message.content)
     except Exception as e:
         print(e)
         print("Retrying this tweet...")
         return get_boring_versions(tweet)
-        
+
     if len(boring_versions) == 0:
         boring_versions.append("")
 

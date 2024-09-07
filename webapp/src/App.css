@@ -1,29 +1,13 @@
-@font-face {
-  font-family: 'AnonPro';
-  src: url('../public/fonts/AnonymousPro-Bold.ttf') format('truetype');
-}
-
 :root {
-  --primary-color: #000;
+  --primary-color: #00FF00; /* Coder green */
 
-  --dark-background-color: #000;
-  --dark-text-color: #fff;
-  --dark-panel-background: #000;
-  --dark-button-background: #000;
-  --dark-button-text: #fff;
-  --dark-border-color: #fff; /* Set to white for dark mode */
-
-  --light-background-color: #fff;
-  --light-text-color: #000;
-  --light-panel-background: #fff;
-  --light-button-background: #fff;
-  --light-button-text: #000;
-  --light-border-color: #000; /* Set to black for light mode */
-
-  --dark-logo-text-color: #fff; /* White for dark mode */
-  --light-logo-text-color: #000; /* Black for light mode */
-
-  --logo-text-color: var(--dark-logo-text-color);
+  --dark-background-color: #000000; /* Black background */
+  --dark-text-color: #00FF00; /* Coder green text */
+  --dark-panel-background: #000000; /* Black panel background */
+  --dark-button-background: #00FF00; /* Coder green button background */
+  --dark-button-text: #000000; /* Black button text */
+  --dark-border-color: #00FF00; /* Coder green border */
+  --dark-icon-color: #00FF00; /* Coder green icons */
 
   --background-color: var(--dark-background-color);
   --text-color: var(--dark-text-color);
@@ -31,11 +15,7 @@
   --button-background: var(--dark-button-background);
   --button-text: var(--dark-button-text);
   --border-color: var(--dark-border-color);
-  --icon-color: var(--dark-text-color);
-}
-
-body.dark-mode {
-  --icon-color: var(--light-text-color);
+  --icon-color: var(--dark-icon-color);
 }
 
 body, p, button {
@@ -45,19 +25,9 @@ body, p, button {
 
 .text-logo {
   font-family: 'AnonPro', monospace;
-  font-size: 40px;
+  font-size: 20px;
   font-weight: bold;
-  color: var(--logo-text-color); /* Use the CSS variable here */
-}
-
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 5vmin;
-  margin-bottom: 30px;
-  pointer-events: none;
+  color: var(--primary-color); /* Use coder green for the logo text */
 }
 
 .App-header {
@@ -65,8 +35,9 @@ body, p, button {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   color: var(--text-color);
+  padding-top: 20px;
 }
 
 .logo-container {
@@ -79,38 +50,140 @@ body, p, button {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+}
+
+.icon-container {
+  position: fixed;
+  top: 10px;
+  right: 20px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000;
+}
+
+.custom-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 25px;
+  display: flex;
+  align-items: center;
   justify-content: center;
 }
 
-.App-link {
-  color: var(--primary-color);
+.mode-toggle {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 23px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.generate-button {
-  margin-top: 10px;
+.tweet-feed {
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 0 20px;
 }
 
-.tweet-form, .tweet-button.generate-button {
-  width: 500px;
-  margin: 10px auto;
-}
-
-label {
-  display: block;
-  margin-top: 10px;
-}
-
-.tweet-form {
-  background: var(--panel-background);
-  border: 1px solid var(--border-color);
-  border-radius: 5px;
-  padding: 2px;
-  width: 500px;
+.tweet-item {
+  background-color: var(--panel-background);
+  border-bottom: 1px solid var(--border-color);
+  padding: 15px;
   display: flex;
   flex-direction: column;
 }
 
+.tweet-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.tweet-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.tweet-user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.tweet-username {
+  font-weight: bold;
+  font-size: 16px;
+  color: var(--text-color);
+}
+
+.tweet-handle {
+  font-size: 14px;
+  color: var(--icon-color);
+  margin-top: 2px;
+}
+
+.tweet-timestamp {
+  font-size: 14px;
+  color: var(--icon-color);
+  margin-left: 5px;
+}
+
+.tweet-text {
+  font-size: 16px;
+  color: var(--text-color);
+  margin-bottom: 10px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.tweet-actions {
+  display: flex;
+  justify-content: space-between;
+  max-width: 300px;
+  padding-top: 5px;
+}
+
+.tweet-action-item {
+  display: flex;
+  align-items: center;
+  color: var(--icon-color);
+  cursor: pointer;
+}
+
+.tweet-action-item span {
+  font-size: 14px;
+  margin-left: 5px;
+}
+
+.tweet-action-item:hover {
+  color: var(--primary-color);
+}
+
+.generated-tweet-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding-top: 20px;
+}
+
+.tweet-form, .tweet-button.generate-button {
+  width: 100%;
+  max-width: 600px;
+  margin: 10px auto;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  padding: 10px;
+}
+
 .tweet-form textarea {
+  width: 100%;
   border: none;
   padding: 10px;
   resize: none;
@@ -122,91 +195,89 @@ label {
   color: var(--text-color);
 }
 
-.icon-container {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  left: 20px;
-  display: flex; /* Flex layout */
-  align-items: center; /* Align items vertically */
-  justify-content: space-between; /* Align items horizontally */
-  gap: 1px; /* Gap between icons */
-  z-index: 1000; /* Above other elements */
+.tweet-form textarea::placeholder {
+  color: var(--icon-color);
 }
-
-.custom-button {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 25px; /* GitHub icon size */
-  z-index: 1001; /* Above container */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.mode-toggle {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 23px; /* Emoji size */
-  z-index: 1001; /* Above container */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 
 .tweet-button {
   background-color: var(--button-background);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--button-background);
   color: var(--button-text);
   padding: 10px;
   text-align: center;
-  text-decoration: none;
-  display: inline-block;
   font-size: 16px;
   margin: 5px 0;
   cursor: pointer;
-  border-radius: 5px;
-  z-index: 999; /* Decreased z-index to place this below other elements */
+  border-radius: 30px;
+  width: 100%;
+  max-width: 600px;
 }
 
 .tweet-button:hover {
-  background-color: #888;
-}
-
-.generated-tweet-container {
-  width: 33%;
-  margin: 0 auto;
-  text-align: center;
-  padding-top: 20px;
+  background-color: #1a8cd8;
 }
 
 @media only screen and (max-width: 768px) {
-  .tweet-form, .tweet-button.generate-button {
-    width: 80%;
-    margin: 10px auto;
+  .tweet-feed,
+  .tweet-item,
+  .tweet-form,
+  .generated-tweet-container,
+  .tweet-button {
+    width: 100%;
   }
 
-  .generated-tweet-container {
-    width: 80%;
-    margin: 0 auto;
-    text-align: center;
+  .tweet-avatar {
+    width: 40px;
+    height: 40px;
   }
 
-  .App-logo {
-    height: 10vmin;
-    margin-bottom: 30px;
-    pointer-events: none;
+  .tweet-username {
+    font-size: 14px;
+  }
+
+  .tweet-handle-container {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .tweet-handle, .tweet-timestamp {
+    font-size: 12px;
+  }
+
+  .tweet-text {
+    font-size: 14px;
+  }
+
+  .tweet-action-item span {
+    font-size: 12px;
   }
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.App {
+  background-color: var(--background-color);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-color);
+}
+
+.App-header {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.App-logo {
+  height: 60px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .App-logo {
+    height: 40px;
   }
-  to {
-    transform: rotate(360deg);
-  }
-} 
+}

@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { faGithub } from "@fortawesome/free-brands-svg-icons"; // Correct import for Github icon
+import {
+  faComment,
+  faRetweet,
+  faHeart,
+  faShareSquare,
+} from "@fortawesome/free-solid-svg-icons";
 import ReactGA from "react-ga";
+import logo from './default.png';
 
 import "./App.css";
 
@@ -13,27 +20,39 @@ function App() {
     ReactGA.pageview(window.location.pathname);
   }, []);
 
-  const [tweetIdea, setTweetIdea] = useState("");
-  const [generatedTweet, setGeneratedTweet] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [generatedTweets, setGeneratedTweets] = useState([]); // List for feed
   const [darkMode, setDarkMode] = useState(true);
-  // const [contentType, setContentType] = useState("stocks");
   const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8080";
 
-  const handleTweetIdeaChange = (e) => setTweetIdea(e.target.value);
+  // Utility function to format timestamps
+  const formatTimestamp = (createdAt) => {
+    const now = new Date();
+    const diffInMs = now - new Date(createdAt);
+    const diffInMinutes = Math.floor(diffInMs / 60000);
+    
+    if (diffInMinutes < 1) return 'just now';
+    if (diffInMinutes < 60) return `${diffInMinutes}m`;
+    
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    if (diffInHours < 24) return `${diffInHours}h`;
 
-  const handleGenerateTweet = () => {
-    setIsLoading(true);
-    setGeneratedTweet(null);
-    ReactGA.event({
-      category: "Button",
-      action: "Clicked Generate Banger Tweet",
-    }); // Track click
+    const diffInDays = Math.floor(diffInHours / 24);
+    return `${diffInDays}d`;
+  };
 
+  // Fetch a new tweet at regular intervals
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      generateTweet();
+    }, 5000); // Fetch a new tweet every 5 seconds
+
+    return () => clearInterval(intervalId); // Cleanup interval on component unmount
+  }, []);
+
+  const generateTweet = () => {
     axios
       .post(`${API_URL}/generate-banger`, {
-        originalText: tweetIdea,
-        // contentType: contentType,
+        originalText: "This is a simulated tweet idea", // Can be made dynamic
       })
       .then((response) => {
         if (response.status !== 200) {
@@ -42,14 +61,54 @@ function App() {
         return response.data;
       })
       .then((data) => {
-        setGeneratedTweet(data);
+        if (data && typeof data.banger === "string") {
+          setGeneratedTweets((prevTweets) => [
+            {
+              id: Date.now(),
+              avatar: "/default.png",
+              username: "anon",
+              handle: "@anon",
+              createdAt: new Date(), // Store the timestamp
+              text: data.banger,
+              comments: Math.floor(Math.random() * 100),
+              reposts: Math.floor(Math.random() * 50),
+              likes: Math.floor(Math.random() * 200),
+            }, // New tweet at the top
+            ...prevTweets,
+          ]);
+        } else {
+          setGeneratedTweets((prevTweets) => [
+            {
+              id: Date.now(),
+              avatar: "https://via.placeholder.com/50",
+              username: "error_user",
+              handle: "@error_handle",
+              createdAt: new Date(),
+              text: "Error generating banger tweet.",
+              comments: 0,
+              reposts: 0,
+              likes: 0,
+            },
+            ...prevTweets,
+          ]);
+        }
       })
       .catch((error) => {
         console.error("An error occurred:", error);
-        setGeneratedTweet("Error generating banger tweet.");
-      })
-      .finally(() => {
-        setIsLoading(false);
+        setGeneratedTweets((prevTweets) => [
+          {
+            id: Date.now(),
+            avatar: "https://via.placeholder.com/50",
+            username: "error_user",
+            handle: "@error_handle",
+            createdAt: new Date(),
+            text: "Error generating banger tweet.",
+            comments: 0,
+            reposts: 0,
+            likes: 0,
+          },
+          ...prevTweets,
+        ]);
       });
   };
 
@@ -116,90 +175,94 @@ function App() {
     }
   };
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    handleGenerateTweet();
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleGenerateTweet();
-    }
-  };
-
   return (
     <div className="App">
-      <div className="icon-container">
-        <a
-          href="https://github.com/effectiveaccelerationism/text-to-banger"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <button className="custom-button custom-icon">
-            <FontAwesomeIcon icon={faGithub} color="grey" />
-          </button>
-        </a>
-
-        <button className="mode-toggle" onClick={toggleDarkMode}>
-          {darkMode ? "🌙" : "☀️"}
-        </button>
-      </div>
       <header className="App-header">
+        <img src={logo} alt="Logo" className="App-logo" />
         <div className="logo-container">
-          {/* <img src={logo} className="App-logo" alt="logo" /> */}
-          <h1 className="text-logo">text-to-banger</h1>
+          <h1 className="text-logo">intern.gg</h1>
         </div>
         <div className="content-container">
-          <form onSubmit={handleFormSubmit} className="tweet-form">
-            <textarea
-              id="tweetIdea"
-              value={tweetIdea}
-              onChange={handleTweetIdeaChange}
-              onKeyDown={handleKeyDown}
-              placeholder="What's happening?"
-              rows="4"
-            />
-          </form>
-          <button
-            className="tweet-button generate-button"
-            onClick={handleGenerateTweet}
-            disabled={isLoading}
-          >
-            Generate Banger Tweet
-          </button>
-          {isLoading && <p>generating a banger...</p>}
+          {/* Display the feed of generated tweets */}
           <div className="generated-tweet-container">
-            {generatedTweet && (
-              <>
-                <p
-                  style={{
-                    color: generatedTweet.startsWith("Error")
-                      ? "darkred"
-                      : "inherit",
-                  }}
-                >
-                  {generatedTweet}
-                </p>
-                {!generatedTweet.startsWith("Error") && (
-                  <a
-                    className="tweet-button"
-                    onClick={() =>
-                      ReactGA.event({
-                        category: "Button",
-                        action: "Clicked Post Banger Tweet",
-                      })
-                    } // Track click
-                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
-                      generatedTweet
-                    )}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Post Banger Tweet
-                  </a>
-                )}
-              </>
+            {generatedTweets.length > 0 ? (
+              <div className="tweet-feed">
+                {generatedTweets.map((tweet) => (
+                  <div key={tweet.id} className="tweet-item">
+                    <div className="tweet-header">
+                      <img
+                        src={tweet.avatar}
+                        alt="avatar"
+                        className="tweet-avatar"
+                      />
+                      <div className="tweet-user-info">
+                        <span className="tweet-username">{tweet.username}</span>
+                        <div className="tweet-handle-container">
+                        <span className="tweet-handle">{tweet.handle} ·</span>
+                        <span className="tweet-timestamp">{formatTimestamp(tweet.createdAt)}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <p
+                      className="tweet-text"
+                      style={{
+                        color:
+                          tweet.text.startsWith("Error") ? "darkred" : "inherit",
+                      }}
+                    >
+                      {tweet.text}
+                    </p>
+
+                    <div className="tweet-actions">
+                      {/* Comments */}
+                      <div className="tweet-action-item">
+                        <FontAwesomeIcon icon={faComment} />
+                        <span>{tweet.comments}</span>
+                      </div>
+
+                      {/* Reposts */}
+                      <div className="tweet-action-item">
+                        <FontAwesomeIcon icon={faRetweet} />
+                        <span>{tweet.reposts}</span>
+                      </div>
+
+                      {/* Likes */}
+                      <div className="tweet-action-item">
+                        <FontAwesomeIcon icon={faHeart} />
+                        <span>{tweet.likes}</span>
+                      </div>
+
+                      {/* Share */}
+                      {!tweet.text.startsWith("Error") && (
+                        <div className="tweet-action-item">
+                          <FontAwesomeIcon
+                            icon={faShareSquare}
+                            onClick={() =>
+                              ReactGA.event({
+                                category: "Button",
+                                action: "Clicked Share Banger Tweet",
+                              })
+                            }
+                          />
+                          <a
+                            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                              tweet.text
+                            )}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ marginLeft: "5px" }}
+                          >
+                            Share
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p>No bangers generated yet.</p>
             )}
           </div>
         </div>
