@@ -24,9 +24,13 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "mobile-preview": "lt --port 3000",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "localtunnel": "^2.0.2"
   },
   "eslintConfig": {
     "extends": [

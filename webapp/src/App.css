@@ -1,283 +1,378 @@
 :root {
-  --primary-color: #00FF00; /* Coder green */
-
-  --dark-background-color: #000000; /* Black background */
-  --dark-text-color: #00FF00; /* Coder green text */
-  --dark-panel-background: #000000; /* Black panel background */
-  --dark-button-background: #00FF00; /* Coder green button background */
-  --dark-button-text: #000000; /* Black button text */
-  --dark-border-color: #00FF00; /* Coder green border */
-  --dark-icon-color: #00FF00; /* Coder green icons */
-
-  --background-color: var(--dark-background-color);
-  --text-color: var(--dark-text-color);
-  --panel-background: var(--dark-panel-background);
-  --button-background: var(--dark-button-background);
-  --button-text: var(--dark-button-text);
-  --border-color: var(--dark-border-color);
-  --icon-color: var(--dark-icon-color);
+  --bg: #020205;
+  --bg-panel: rgba(6, 6, 10, 0.95);
+  --card: rgba(10, 11, 20, 0.9);
+  --accent: #31ffd4;
+  --accent-strong: #ff57b9;
+  --text: #f4f7fb;
+  --muted: #a0aec0;
+  --border: rgba(255, 255, 255, 0.08);
+  --pill-bg: rgba(255, 255, 255, 0.08);
+  --error: #ff5d5d;
 }
 
-body, p, button {
-  font-family: 'AnonPro', monospace;
-  color: var(--text-color);
+* {
+  box-sizing: border-box;
 }
 
-.text-logo {
-  font-family: 'AnonPro', monospace;
-  font-size: 20px;
-  font-weight: bold;
-  color: var(--primary-color); /* Use coder green for the logo text */
-}
-
-.App-header {
-  background-color: var(--panel-background);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  color: var(--text-color);
-  padding-top: 20px;
-}
-
-.logo-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.content-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-.icon-container {
-  position: fixed;
-  top: 10px;
-  right: 20px;
-  left: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  z-index: 1000;
-}
-
-.custom-button {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 25px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.mode-toggle {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 23px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.tweet-feed {
-  width: 100%;
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 0 20px;
-}
-
-.tweet-item {
-  background-color: var(--panel-background);
-  border-bottom: 1px solid var(--border-color);
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-}
-
-.tweet-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.tweet-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  margin-right: 10px;
-}
-
-.tweet-user-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.tweet-username {
-  font-weight: bold;
-  font-size: 16px;
-  color: var(--text-color);
-}
-
-.tweet-handle {
-  font-size: 14px;
-  color: var(--icon-color);
-  margin-top: 2px;
-}
-
-.tweet-timestamp {
-  font-size: 14px;
-  color: var(--icon-color);
-  margin-left: 5px;
-}
-
-.tweet-text {
-  font-size: 16px;
-  color: var(--text-color);
-  margin-bottom: 10px;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
-.tweet-actions {
-  display: flex;
-  justify-content: space-between;
-  max-width: 300px;
-  padding-top: 5px;
-}
-
-.tweet-action-item {
-  display: flex;
-  align-items: center;
-  color: var(--icon-color);
-  cursor: pointer;
-}
-
-.tweet-action-item span {
-  font-size: 14px;
-  margin-left: 5px;
-}
-
-.tweet-action-item:hover {
-  color: var(--primary-color);
-}
-
-.generated-tweet-container {
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  padding-top: 20px;
-}
-
-.tweet-form, .tweet-button.generate-button {
-  width: 100%;
-  max-width: 600px;
-  margin: 10px auto;
-  border-radius: 20px;
-  border: 1px solid var(--border-color);
-  padding: 10px;
-}
-
-.tweet-form textarea {
-  width: 100%;
-  border: none;
-  padding: 10px;
-  resize: none;
-  outline: none;
-  font-family: 'AnonPro', monospace;
-  font-size: 16px;
-  line-height: 20px;
-  background-color: var(--panel-background);
-  color: var(--text-color);
-}
-
-.tweet-form textarea::placeholder {
-  color: var(--icon-color);
-}
-
-.tweet-button {
-  background-color: var(--button-background);
-  border: 1px solid var(--button-background);
-  color: var(--button-text);
-  padding: 10px;
-  text-align: center;
-  font-size: 16px;
-  margin: 5px 0;
-  cursor: pointer;
-  border-radius: 30px;
-  width: 100%;
-  max-width: 600px;
-}
-
-.tweet-button:hover {
-  background-color: #1a8cd8;
-}
-
-@media only screen and (max-width: 768px) {
-  .tweet-feed,
-  .tweet-item,
-  .tweet-form,
-  .generated-tweet-container,
-  .tweet-button {
-    width: 100%;
-  }
-
-  .tweet-avatar {
-    width: 40px;
-    height: 40px;
-  }
-
-  .tweet-username {
-    font-size: 14px;
-  }
-
-  .tweet-handle-container {
-    display: flex;
-    flex-direction: row;
-  }
-
-  .tweet-handle, .tweet-timestamp {
-    font-size: 12px;
-  }
-
-  .tweet-text {
-    font-size: 14px;
-  }
-
-  .tweet-action-item span {
-    font-size: 12px;
-  }
+body {
+  margin: 0;
+  font-family: 'Space Grotesk', 'AnonPro', 'Inter', sans-serif;
+  background: radial-gradient(circle at top, rgba(49, 255, 212, 0.08), transparent 50%),
+    #010104;
+  color: var(--text);
 }
 
 .App {
-  background-color: var(--background-color);
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-color);
+  background: linear-gradient(180deg, rgba(2, 2, 5, 0.95), rgba(2, 2, 5, 0.7));
 }
 
 .App-header {
-  width: 100%;
-  padding: 20px;
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  padding: 40px 20px 120px;
   display: flex;
   flex-direction: column;
+  gap: 32px;
+}
+
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--bg-panel);
+  backdrop-filter: blur(12px);
+}
+
+.logo-stack {
+  display: flex;
+  gap: 20px;
   align-items: center;
 }
 
 .App-logo {
-  height: 60px;
-  margin-bottom: 20px;
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  object-fit: cover;
+  background: #000;
 }
 
-@media (max-width: 768px) {
-  .App-logo {
-    height: 40px;
+.eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  font-size: 11px;
+  color: var(--accent);
+}
+
+.hero h1 {
+  margin: 4px 0 6px;
+  font-size: clamp(28px, 5vw, 42px);
+}
+
+.subtitle {
+  margin: 0;
+  max-width: 560px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.ghost-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 10px 16px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: border 0.2s ease, color 0.2s ease;
+}
+
+.ghost-link:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.mobile-tip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border: 1px dashed var(--border);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.mobile-tip code {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2px 6px;
+  border-radius: 6px;
+  color: var(--text);
+}
+
+.controls-panel {
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 24px;
+  background: var(--bg-panel);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.controls-panel label {
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+textarea {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px;
+  color: var(--text);
+  width: 100%;
+  font-size: 16px;
+  font-family: inherit;
+  min-height: 110px;
+  resize: vertical;
+}
+
+textarea::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.select-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.select-field {
+  flex: 1;
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.select-field select {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 14px;
+  color: var(--text);
+  font-size: 15px;
+}
+
+.button-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.primary {
+  background: linear-gradient(120deg, var(--accent), var(--accent-strong));
+  color: #020205;
+  font-weight: 600;
+}
+
+.primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.ghost {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+  border: 1px solid transparent;
+}
+
+.ghost:hover {
+  border-color: var(--accent);
+}
+
+.ghost.active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.error {
+  margin: 0;
+  color: var(--error);
+  font-size: 14px;
+}
+
+.status-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.status-pill {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.status-pill.live {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.memecoin-feed {
+  border-radius: 28px;
+  border: 1px solid var(--border);
+  padding: 28px;
+  background: rgba(6, 6, 14, 0.85);
+}
+
+.placeholder {
+  color: var(--muted);
+  margin: 0;
+  text-align: center;
+}
+
+.memecoin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.memecoin-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.ticker {
+  margin: 0;
+  font-size: 13px;
+  letter-spacing: 0.4em;
+  color: var(--muted);
+}
+
+.card-header h3 {
+  margin: 4px 0 0;
+}
+
+.share {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
+.tagline {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.lore {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+  font-size: 15px;
+}
+
+.pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pill {
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--pill-bg);
+  font-size: 13px;
+}
+
+.list-block {
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+
+.list-block h4 {
+  margin: 0 0 6px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+}
+
+.list-block ul,
+.list-block ol {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+@media (max-width: 640px) {
+  .hero,
+  .controls-panel,
+  .memecoin-feed {
+    padding: 20px;
+  }
+
+  .logo-stack {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  button {
+    width: 100%;
+    justify-content: center;
   }
 }
